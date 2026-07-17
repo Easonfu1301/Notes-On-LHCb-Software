@@ -66,6 +66,25 @@ language=c++,
 		showspaces=false %不显示空格
 	}
 
+\lstdefinestyle{python}{
+	language=Python,
+	backgroundcolor=\color{white},
+	basicstyle=\footnotesize\ttfamily,
+	columns=fullflexible,
+	breaklines=true,
+	captionpos=b,
+	tabsize=4,
+	commentstyle=\color{mygreen},
+	keywordstyle=\color{blue},
+	stringstyle=\color{mymauve}\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	xleftmargin=1em,
+	xrightmargin=1em,
+	aboveskip=1em,
+	showspaces=false
+}
+
 \title{Notes About Upgrade II Software }
 \author{傅逸\lower-1.0ex\hbox{\scalebox{1}[0.4]{日}}\lower.1ex\hbox{\kern-1em \scalebox{1}[0.5]{升}}}
 
@@ -124,19 +143,30 @@ TV（Timing VELO）是 LHCb 升级二期的顶点探测器，能够同时测量�
   \end{tabular}
 \end{table}
 
-在当前的设计下，其分辨率为
+\newpage
+
+在当前的设计下，其主要参数为
 \begin{eqnarray}
 \sigma_{t} &\sim& 50~\mathrm{ps}\\
-\sigma_{x} &=& \sigma_{y} = 50~\mathrm{\mu m}
+\sigma_{x} &=& \sigma_{y} \sim 12~\mathrm{\mu m}\\
+\mathrm{Pitch} &=& 55~\mathrm{\mu m}
 \end{eqnarray}
 
+其对应的配置代码如 Listing.~\ref{lst:tv-config} 所示：
+\begin{lstlisting}[style=python, label=lst:tv-config, caption={TV 探测器配置代码（TVConfig）}]
+# Moore/Hlt/RecoConf/python/RecoConf/run5_defaults.py
+class TVConfig(_PixelConfig):
+    def __init__(self):
+        self.TimeResolution = 50 * ps
+        self.Pitch = 0.055 * mm
+        self.SpatialResolution = 0.012 * mm
+        self.Use3D = False
+        self.Mask = []
+        self.Foil = "Cylindrical"
+        self.Detailed = True
 
-
-
-
-
-
-
+DEFAULTS_TV = TVConfig()
+\end{lstlisting}
 
 
 

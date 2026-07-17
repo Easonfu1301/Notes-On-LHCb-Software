@@ -124,3 +124,56 @@ $12.5 mm$                   % 普通空格，可能换行断开
 1. **单位用 `\mathrm{}`** — 防止被渲染为斜体变量
 2. **数字与单位间用 `~`** — 不可断空格，防止换行分离
 3. **复合单位整体包裹** — 如 `$\mathrm{GeV}/c^2$` 或 `$\mathrm{m/s}$`
+
+---
+
+## Listing 代码块文件路径规范
+
+### 基本原则
+- 每个 `\begin{lstlisting} ... \end{lstlisting}` 代码块的**第一行**必须写出该代码所属的源文件路径。
+
+### 正确示例
+
+```latex
+% ✅ 正确写法 — 第一行标注了文件路径
+\begin{lstlisting}[label=lst:example, caption={some code}]
+// path/to/file.cpp
+int main() {
+    return 0;
+}
+\end{lstlisting}
+
+% ❌ 错误写法 — 缺少文件路径
+\begin{lstlisting}[label=lst:example, caption={some code}]
+int main() {
+    return 0;
+}
+\end{lstlisting}
+```
+
+### AI 协作者检查流程
+
+在修改或新增任何 `lstlisting` 代码块时，**必须**执行以下检查：
+
+1. 确认 `lstlisting` 内部的第一行是否包含文件路径（通常以注释形式，如 `// path/to/file` 或 `# path/to/file`）
+2. **如果缺少文件路径**，使用 `vscode_askQuestions` 工具向用户询问该代码的来源文件路径，**不要自行猜测或编造路径**。
+3. 用户提供路径后，再将其添加到 `lstlisting` 的第一行。
+
+调用 `vscode_askQuestions` 的示例：
+```json
+{
+  "questions": [
+    {
+      "header": "missing-file-path",
+      "question": "Listing \\label{lst:xxx} 的第一行缺少源文件路径，请提供该代码的来源文件路径：",
+      "allowFreeformInput": true
+    }
+  ]
+}
+```
+
+### 规则总结
+
+1. **每个 listing 第一行必须有文件路径** — 以注释形式标注
+2. **缺失时用 `vscode_askQuestions` 询问用户** — 绝不自行猜测路径
+3. **路径格式** — 根据语言选择注释符号：C/C++ 用 `//`，Python 用 `#`，等等
