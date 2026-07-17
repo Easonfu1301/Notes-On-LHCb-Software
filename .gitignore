@@ -1,6 +1,9 @@
 # VS Code 配置
 .vscode/
 
+# 编辑器临时文件（Office 锁文件等）
+.~*
+
 # LaTeX 过程文件
 .latexmkrc
 *.aux
