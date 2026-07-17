@@ -11,6 +11,13 @@
 \newcommand{\teal}[1]{\textcolor{teal}{#1}}
 \newcommand{\violet}[1]{\textcolor{violet}{#1}}
 \usepackage{graphicx}%插入图片
+
+% 图片占位符命令
+\newcommand{\figplaceholder}{%
+  \begin{center}
+    \textcolor{orange}{\Large \textbf{[Figure]}}
+  \end{center}%
+}
 \usepackage{booktabs} %绘制表格
 \usepackage{caption} %标题居中
 \usepackage{geometry}
@@ -77,11 +84,53 @@ language=c++,
 	\caption{LHCb 升级二期子探测器布局示意图。TV（Vertex Tracker）位于对撞点附近，UP（Upstream Tracker）和磁铁位于中游，MT（Main Tracker，分为 MP 和 FT）位于下游。紫色虚线表示粒子径迹，红色圆点表示探测器击中。图中展示了 Velo track、Upstream track、Long track、Downstream track 和 T track 等不同类型径迹的分类。}
 \end{figure}
 
-下面介绍一下不同探测器的主要参数，包括hitmap，layout。
+下面介绍一下不同探测器的主要参数，包括hitmap，layout, 当然，以UP为主。
 
 \begin{center}
-	\blue{\Large TV}
+	\blue{\Large \textbf{TV}}
 \end{center}
+
+TV（Timing VELO）是 LHCb 升级二期的顶点探测器，能够同时测量粒子的位置和时间信息。在当前基线设计中，TV 共包含 32 个 station，其 hitmap 如下所示
+
+\figplaceholder
+
+其 layer 的 z 坐标如 Table.~\ref{tab:tv-z} 所示。
+
+\begin{table}[htbp]
+  \centering
+  \caption{TV 各 station 的 z 坐标。另两个变体 \texttt{branch-run5-low} 和 \texttt{proto-run5-v00.01} 中相同位置（L42--73）数值一致。数据来源：\texttt{Detector/\allowbreak compact/\allowbreak components/\allowbreak TV/\allowbreak branch-run5-baseline/\allowbreak parameters.xml} L38--73。}
+  \label{tab:tv-z}
+  \begin{tabular}{cc|cc}
+    \toprule
+    Station & $z$ [mm] & Station & $z$ [mm] \\
+    \midrule
+     0 & $-281.25$ & 16 & $+120.6$ \\
+     1 & $-256.25$ & 17 & $+141.0$ \\
+     2 & $-231.25$ & 18 & $+161.4$ \\
+     3 & $-206.25$ & 19 & $+181.8$ \\
+     4 & $-161.25$ & 20 & $+202.3$ \\
+     5 & $-121.25$ & 21 & $+223.1$ \\
+     6 &  $-88.5$  & 22 & $+263.6$ \\
+     7 &  $-63.3$  & 23 & $+313.9$ \\
+     8 &  $-42.9$  & 24 & $+412.4$ \\
+     9 &  $-22.4$  & 25 & $+510.9$ \\
+    10 &   $-2.1$  & 26 & $+571.7$ \\
+    11 &  $+18.4$  & 27 & $+708.0$ \\
+    12 &  $+38.8$  & 28 & $+723.0$ \\
+    13 &  $+59.3$  & 29 & $+738.0$ \\
+    14 &  $+79.7$  & 30 & $+753.0$ \\
+    15 & $+100.1$  & 31 & $+768.0$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
 
 
 
