@@ -1,0 +1,23 @@
+# VS Code 配置
+.vscode/
+
+# LaTeX 过程文件
+.latexmkrc
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.synctex*
+*.fdb_latexmk
+*.fls
+*.xdv
+*.nav
+*.snm
+*.vrb
+*.lof
+*.lot
+
+# 输出 PDF（如需保留请注释掉下行）
+*.pdf
