@@ -116,8 +116,14 @@ language=c++,
 	\caption{LHCb 升级二期子探测器布局示意图。TV（Vertex Tracker）位于对撞点附近，UP（Upstream Tracker）和磁铁位于中游，MT（Main Tracker，分为 MP 和 FT）位于下游。紫色虚线表示粒子径迹，红色圆点表示探测器击中。图中展示了 Velo track、Upstream track、Long track、Downstream track 和 T track 等不同类型径迹的分类。}
 \end{figure}
 
-下面介绍一下不同探测器的主要参数，包括hitmap，layout, 当然，以UP为主。
+下面介绍一下不同探测器的主要参数，包括hitmap，layout, 当然，以UP为主。在此之前，将展示一下整体的hitmap，见 Figure.~\ref{fig:hitmaps}。
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{Background/HITMAP/All.png}
+	\caption{LHCb 升级二期子探测器的 hitmap。TV、UP、MP 和 FT 的 hitmap 分别用不同颜色表示。}
+	\label{fig:hitmaps}
+\end{figure}
 
 \newpage
 \subsubsection{UP}
@@ -190,10 +196,26 @@ FTDR 与 UP.E 的设计布局对比如 Figure.~\ref{fig:up-designs} 所示。
 \end{equation}
 
 
-该设计下，其辐射长度如下所示
+该设计下的辐射长度及 hitmap 如下所示
 
-\figplaceholder
-
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Background/RLscanUPEv2.png}
+		\caption{辐射长度扫描图。}
+		\label{fig:up-e-rl-scan}
+	\end{subfigure}
+	% \hfill
+	\begin{subfigure}[b]{0.40\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Background/HITMAP/UP.png}
+		\caption{Hitmap 分布。}
+		\label{fig:up-hitmap}
+	\end{subfigure}
+	\caption{UP.E gapless 设计的辐射长度扫描及 hitmap。}
+	\label{fig:up-e-rl-hitmap}
+\end{figure}
 
 
 
@@ -234,10 +256,6 @@ class UPConfig(_PixelConfig):
 DEFAULTS_UP = UPConfig()
 \end{lstlisting}
 
-\sectiontitle{Hitmap}
-
-
-\figplaceholder
 
 
 
@@ -249,13 +267,18 @@ DEFAULTS_UP = UPConfig()
 
 TV（Timing VELO）是 LHCb 升级二期的顶点探测器，能够同时测量粒子的位置和时间信息。在当前基线设计中，TV 共包含 32 个 station，其 hitmap 如下所示
 
-\figplaceholder
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\textwidth]{Background/HITMAP/TV.png}
+	\caption{TV 探测器的 hitmap。}
+	\label{fig:tv-hitmap}
+\end{figure}
 
 其 layer 的 z 坐标如 Table.~\ref{tab:tv-z} 所示。
 
 \begin{table}[htbp]
   \centering
-  \caption{TV 各 station 的 z 坐标。另两个变体 \texttt{branch-run5-low} 和 \texttt{proto-run5-v00.01} 中相同位置（L42--73）数值一致。数据来源：\texttt{Detector/\allowbreak compact/\allowbreak components/\allowbreak TV/\allowbreak branch-run5-baseline/\allowbreak parameters.xml} L38--73。}
+  \caption{TV 各 station 的 z 坐标。另两个变体 \texttt{branch-run5-low} 和 \texttt{proto-run5-v00.01} 中相同位置（L42--73）数值一致。数据来源：\protect\path{Detector/compact/components/TV/branch-run5-baseline/parameters.xml} L38--73。}
   \label{tab:tv-z}
   \begin{tabular}{cc|cc|cc|cc}
     \toprule
@@ -299,7 +322,116 @@ DEFAULTS_TV = TVConfig()
 \end{lstlisting}
 
 
-\subsection{Tracking Algorithm}
+
+\subsubsection{MP}
+
+MP（MightyPix）是 位于MT的中心部分，位于磁铁下游，采用 pixel 探测器。在当前基线设计中，MP 共包含 6 层（L1--L6），采用 X-U-V-X-U-V 的立体角排布。其中，每两层作为一个 Station，L1-L2 为 Station 1，L3-L4 为 Station 2，L5-L6 为 Station 3。
+
+其各层的 z 坐标如 Table.~\ref{tab:mp-z} 所示。
+
+\begin{table}[htbp]
+  \centering
+  \caption{MP 各层的 z 坐标。数据来源：\protect\path{Detector/compact/components/MP/branch-run5-baseline/parameters.xml} L31--36。}
+  \label{tab:mp-z}
+  \begin{tabular}{cc|cc|cc}
+    \toprule
+    Layer & $z$ [mm] & Layer & $z$ [mm] & Layer & $z$ [mm] \\
+    \midrule
+    L1 & $7694.5$ & L3 & $8317.0$ & L5 & $8909.0$ \\
+    L2 & $8157.0$ & L4 & $8749.0$ & L6 & $9371.5$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+在当前的设计下，其主要参数为
+\begin{eqnarray}
+\mathrm{Pixel~Size~X} &=& 84~\mathrm{\mu m}\\
+\mathrm{Pixel~Size~Y} &=& 84~\mathrm{\mu m}
+\end{eqnarray}
+
+其在 Moore 中的配置如 Listing.~\ref{lst:mp-config} 所示：
+
+\begin{lstlisting}[style=python, label=lst:mp-config, caption={MP 探测器配置代码（MPConfig）}]
+# Moore/Hlt/RecoConf/python/RecoConf/run5_defaults.py L73-99
+class MPConfig(_PixelConfig):
+    _DERIVED_KEYS = {"Sx", "Sy"}
+
+    def __init__(self):
+        self.PitchX = 0.084 * mm
+        self.PitchY = 0.084 * mm
+        self.LayerKeep = (
+            True,
+            True,
+            True,
+            True,
+            True,
+            True,
+        )
+        self.Eff = 0.98
+
+    @property
+    def Sx(self):
+        return self.PitchX / sqrt(12)
+
+    @property
+    def Sy(self):
+        return self.PitchY / sqrt(12)
+
+DEFAULTS_MP = MPConfig()
+\end{lstlisting}
+
+其hitmap 如 Figure.~\ref{fig:mp-hitmap} 所示。
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\textwidth]{Background/HITMAP/MP.png}
+	\caption{MP 探测器的 hitmap。}
+	\label{fig:mp-hitmap}
+\end{figure}
+
+
+
+
+\newpage
+
+\subsubsection{FT}
+FT（Fibre Tracker）是 MT中外围的闪烁光纤径迹探测器，与run3的布置一致，位于磁铁下游。在当前基线设计中，FT 共包含 3 个 station（T1--T3），每个 station 包含 4 层（X1, U, V, X2），其中 X 层为竖直方向，U/V 层分别倾斜 $\pm 5^\circ$ 的立体角。各 station 及其内部各层的全局 z 坐标如 Table.~\ref{tab:ft-z} 所示。
+
+\begin{table}[htbp]
+  \centering
+  \caption{FT 各 station 及各层的全局 z 坐标。Station 中心 z 数据来源：\protect\path{Detector/compact/components/FT/branch-run5-baseline/parameters.xml} L47--49；层间距定义同文件 L62--64；层相对位置计算来自 \protect\path{Detector/Detector/FT/src/FT_geo.cpp} L1098--1148。}
+  \label{tab:ft-z}
+  \begin{tabular}{c|cccc}
+    \toprule
+    Station    & X1 [mm]     & U [mm]      & V [mm]      & X2 [mm]     \\
+    \midrule
+    T1 ($7941.0$) & $7853.5$  & $7898.5$   & $7983.5$   & $8028.5$  \\
+    T2 ($8533.0$) & $8445.5$  & $8490.5$   & $8575.5$   & $8620.5$  \\
+    T3 ($9125.0$) & $9037.5$  & $9082.5$   & $9167.5$   & $9212.5$  \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+% 在当前的设计下，其主要参数为
+% \begin{eqnarray}
+% \mathrm{Channel~Pitch} &=& 0.250~\mathrm{mm}\\
+% \mathrm{Stereo~Angle} &=& \pm 5^\circ\\
+% \mathrm{Die~Gap} &=& 0.220~\mathrm{mm}\\
+% \mathrm{nChannels/Module} &=& 4 \times 4 \times 2 \times 128 = 4096
+% \end{eqnarray}
+
+注意：与 TV/UP/MP 不同，由于FT继承自run3, 已经具有完整的数字化过程(Boole), 因此\red{\textbf{无需}}在Moore中有一个独立的 FTConfig 类.
+
+由于 FT 是 闪烁体光纤探测器，其hitmap相较于其余Pixel探测器有较大差异，为方便起见，我们用MCParticle 的hit来表示其 hitmap，如 Figure.~\ref{fig:ft-hitmap} 所示。
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\textwidth]{Background/HITMAP/FT.png}
+	\caption{FT 探测器的 hitmap。}
+	\label{fig:ft-hitmap}
+\end{figure}
+
 
 
 
