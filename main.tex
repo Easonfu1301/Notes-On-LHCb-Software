@@ -13,6 +13,11 @@
 \newcommand{\teal}[1]{\textcolor{teal}{#1}}
 \newcommand{\violet}[1]{\textcolor{violet}{#1}}
 \newcommand{\link}[2]{\href{#1}{\textcolor{blue}{\underline{#2}}}}
+\newcommand{\sectiontitle}[1]{%
+  \begin{center}
+    \textbf{\blue{\Large #1}}
+  \end{center}%
+}
 \usepackage{graphicx}%插入图片
 \usepackage{subcaption}
 
@@ -35,7 +40,7 @@
 \usepackage{indentfirst} % 首行缩进
 \setlength{\parindent}{2em}
 \geometry{a4paper,left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
-\usepackage[hidelinks]{hyperref}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
 % 允许 \path 和 \url 在任意字母处断行
 \def\UrlBreaks{\do\/\do-\do_\do.\do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X\do\Y\do\Z}
 \definecolor{mygreen}{rgb}{0,0.6,0}
@@ -99,6 +104,7 @@ language=c++,
 
 \begin{document}
     \maketitle
+    \tableofcontents
 	\newpage
 
 \section{背景介绍}
@@ -113,6 +119,10 @@ language=c++,
 下面介绍一下不同探测器的主要参数，包括hitmap，layout, 当然，以UP为主。
 
 \subsubsection{UP}
+
+\sectiontitle{Designs}
+
+
 当前，UP探测器有如下的几种设计，FTDR, UP.E, UP.W, UP.X, UP.T。
 
 其中，FTDR、UP.E、UP.T 在 Detector 仓库下有对应的版本，其 GitLab 链接如下：
@@ -121,6 +131,8 @@ language=c++,
   \item \textbf{UP.E}（gapless 设计）：对应 MR \link{https://gitlab.cern.ch/lhcb/Detector/-/merge_requests/920}{!920}，由 Yisheng Fu 创建。
   \item \textbf{UP.T}（TDR 协调设计）：对应 MR \link{https://gitlab.cern.ch/lhcb/Detector/-/merge_requests/947}{!947}，由 Benjamin Audurier 创建，实现 run5 UP v00.02 几何，是三种 UP 设计的折中方案（middle scenario），包含约 $7~\mathrm{m}^2$ 的 MAPS 面积，目前仍在审核中。
 \end{itemize}
+
+FTDR 与 UP.E 的设计布局对比如 Figure.~\ref{fig:up-designs} 所示。
 
 \begin{figure}[htbp]
 	\centering
@@ -140,6 +152,89 @@ language=c++,
 	\caption{UP 探测器的两种设计布局对比。}
 	\label{fig:up-designs}
 \end{figure}
+
+
+\newpage
+
+\sectiontitle{Layout}
+
+\begin{table}[htbp]
+  \centering
+  \caption{UP 各层的全局 Z 坐标。参数定义：\\\protect\path{Detector/compact/components/UP/branch-run5-baseline/parameters.xml} L286--290； \\层排布：\protect\path{Detector/compact/components/UP/branch-run5-baseline/UPHalf.xml} L14--22；\\全局放置：\protect\path{Detector/compact/components/UP/branch-run5-baseline/detector.xml} L50。}
+  \label{tab:up-layer-global-z}
+  \begin{tabular}{cc}
+    \toprule
+    层名 & 绝对 Z [mm]\\
+    \midrule
+    \textbf{aX} & 2485\\
+    \textbf{aU} & 2540\\
+    \textbf{bV} & 2765\\
+    \textbf{bX} & 2820\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+以 UP.E 为例，UP 采用两站（a/b）四层结构：每站内 X 层与 U/V 层间距 $55~\mathrm{mm}$，两站间距 $280~\mathrm{mm}$，整体位于 $Z \approx 2.5 \sim 2.8~\mathrm{m}$（约在 RICH1 下游、磁铁上游），如 Table.~\ref{tab:up-layer-global-z} 所示。其详细设计布局如 Figure.~\ref{fig:up-e-detail} 所示。每一层包含 12 个 Stave，每个 Stave 上排列 $6 \times 8$ （6为正面3个反面3个）个 Module，每个 Module 上集成 $1 \times 8$ 个 Chip，探测器总尺寸约为
+
+\begin{equation}
+	1309~\mathrm{mm} \times 1285~\mathrm{mm}
+\end{equation}
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\textwidth]{Background/UPDesignEDetail.png}
+	\caption{UP.E gapless 设计的详细布局图。}
+	\label{fig:up-e-detail}
+\end{figure}
+
+
+芯片设计空间分辨率（\red{目前}）为
+
+\begin{eqnarray}
+	\sigma_x &=& 50~\mathrm{\mu m} \\
+	\sigma_y &=& 150~\mathrm{\mu m}
+\end{eqnarray}
+
+其在 Moore 中的配置如 Listing.~\ref{lst:up-config} 所示。
+
+\begin{lstlisting}[style=python, label=lst:up-config, caption={UP 探测器配置代码（UPConfig）}]
+# Moore/Hlt/RecoConf/python/RecoConf/run5_defaults.py L103-127
+class UPConfig(_PixelConfig):
+    _DERIVED_KEYS = {"Sx", "Sy"}
+
+    def __init__(self):
+        self.PitchX = 0.050 * mm
+        self.PitchY = 0.150 * mm
+        self.LayerKeep = (
+            True,
+            True,
+            True,
+            True,
+        )
+        self.Eff = 0.98
+
+    @property
+    def Sx(self):
+        return self.PitchX / sqrt(12)
+
+    @property
+    def Sy(self):
+        return self.PitchY / sqrt(12)
+
+DEFAULTS_UP = UPConfig()
+\end{lstlisting}
+
+\sectiontitle{Hitmap}
+
+
+\figplaceholder
+
+
+
+
+\newpage
 
 \subsubsection{TV}
 
