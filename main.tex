@@ -118,6 +118,8 @@ language=c++,
 
 下面介绍一下不同探测器的主要参数，包括hitmap，layout, 当然，以UP为主。
 
+
+\newpage
 \subsubsection{UP}
 
 \sectiontitle{Designs}
@@ -154,8 +156,6 @@ FTDR 与 UP.E 的设计布局对比如 Figure.~\ref{fig:up-designs} 所示。
 \end{figure}
 
 
-\newpage
-
 \sectiontitle{Layout}
 
 \begin{table}[htbp]
@@ -175,12 +175,6 @@ FTDR 与 UP.E 的设计布局对比如 Figure.~\ref{fig:up-designs} 所示。
 \end{table}
 
 
-以 UP.E 为例，UP 采用两站（a/b）四层结构：每站内 X 层与 U/V 层间距 $55~\mathrm{mm}$，两站间距 $280~\mathrm{mm}$，整体位于 $Z \approx 2.5 \sim 2.8~\mathrm{m}$（约在 RICH1 下游、磁铁上游），如 Table.~\ref{tab:up-layer-global-z} 所示。其详细设计布局如 Figure.~\ref{fig:up-e-detail} 所示。每一层包含 12 个 Stave，每个 Stave 上排列 $6 \times 8$ （6为正面3个反面3个）个 Module，每个 Module 上集成 $1 \times 8$ 个 Chip，探测器总尺寸约为
-
-\begin{equation}
-	1309~\mathrm{mm} \times 1285~\mathrm{mm}
-\end{equation}
-
 
 \begin{figure}[htbp]
 	\centering
@@ -188,6 +182,21 @@ FTDR 与 UP.E 的设计布局对比如 Figure.~\ref{fig:up-designs} 所示。
 	\caption{UP.E gapless 设计的详细布局图。}
 	\label{fig:up-e-detail}
 \end{figure}
+
+以 UP.E 为例，UP 采用两站（a/b）四层结构：每站内 X 层与 U/V 层间距 $55~\mathrm{mm}$，两站间距 $280~\mathrm{mm}$，整体位于 $Z \approx 2.5 \sim 2.8~\mathrm{m}$（约在 RICH1 下游、磁铁上游），如 Table.~\ref{tab:up-layer-global-z} 所示。其详细设计布局如 Figure.~\ref{fig:up-e-detail} 所示。每一层包含 12 个 Stave，每个 Stave 上排列 $6 \times 8$ （6为正面3个反面3个）个 Module，每个 Module 上集成 $1 \times 8$ 个 Chip，探测器总尺寸约为
+
+\begin{equation}
+	1309~\mathrm{mm} \times 1285~\mathrm{mm}
+\end{equation}
+
+
+该设计下，其辐射长度如下所示
+
+\figplaceholder
+
+
+
+
 
 
 芯片设计空间分辨率（\red{目前}）为
@@ -203,7 +212,6 @@ FTDR 与 UP.E 的设计布局对比如 Figure.~\ref{fig:up-designs} 所示。
 # Moore/Hlt/RecoConf/python/RecoConf/run5_defaults.py L103-127
 class UPConfig(_PixelConfig):
     _DERIVED_KEYS = {"Sx", "Sy"}
-
     def __init__(self):
         self.PitchX = 0.050 * mm
         self.PitchY = 0.150 * mm
@@ -310,14 +318,6 @@ DEFAULTS_TV = TVConfig()
 
 
 
-
-
-
-
-\begin{lstlisting}
-Test of code
-print("test")
-\end{lstlisting}
 
 \clearpage
 
