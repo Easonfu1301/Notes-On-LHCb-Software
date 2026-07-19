@@ -786,7 +786,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 
 对这些nightly的tag，有时候会出现无法编译，或者一些奇奇怪怪的情况，可以查看 \url{https://lhcb-nightlies.web.cern.ch/nightly/{tagname}}，看看对应的软件编译是否也有问题，若有可以在mattermost里面询问，有可能有修复的branch.
 
-编译完成后，如果你想使用vscode 对于c++code 的智能提示，可以在workspace下创建一个 \lstinline{.vscode} 文件夹，并在里面创建一个 \lstinline{c_cpp_properties.json} 文件，内容类似如下（将[StackPath] 替换为你的实际路径）：
+编译完成后，如果你想使用vscode 对于c++code 的智能提示，可以在workspace下创建一个 \lstinline{.vscode} 文件夹，并在里面创建一个 \lstinline{c_cpp_properties.json} 文件，内容类似如下（将[StackPath] 替换为你的实际路径， build 后面的编译版本用\lstinline{utils/config.json}决定）：
 
 \begin{lstlisting}[language=json]
 {
@@ -858,17 +858,105 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 
 \subsection{一些常用的网站与链接}
 
-待添加
+\subsubsection{软件相关}
+\begin{table}[htbp]
+  \centering
+  \caption{常用软件相关网站与链接}
+  \label{tab:useful-links}
+  \begin{tabular}{ll}
+    \toprule
+    名称 & 链接 \\
+    \midrule
+    stack 安装 & \url{https://gitlab.cern.ch/lhcb-core/dev-tools/lb-stack-setup} \\
+    LHCb Nightlies stack\footnotemark[1] & \url{https://lhcb-nightlies.web.cern.ch} \\
+    LCG 信息\footnotemark[2] & \url{https://lcginfo.cern.ch/} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\footnotetext[1]{在网址后面加上 tagname 可以查看对应的 nightly stack，例如 \url{https://lhcb-nightlies.web.cern.ch/nightly/lhcb-run5}。}
+\footnotetext[2]{包括该版本下有什么包可以使用之类的信息}
+
+\subsection{可能能用到的一些仓库}
+
+
+首先，是 LHCb 官方的 GitLab 仓库，主要包括了 LHCb 的核心软件包，如 Moore、Gauss、Boole、Rec 等。其链接为
+
+\begin{table}[htbp]
+  \centering
+  \caption{LHCb 官方核心软件仓库}
+  \label{tab:stack-repos}
+  \begin{tabular}{ll}
+    \toprule
+    名称 & 链接 \\
+    \midrule
+    Moore & \url{https://gitlab.cern.ch/lhcb/Moore} \\
+    Gauss & \url{https://gitlab.cern.ch/lhcb/Gauss} \\
+    Boole & \url{https://gitlab.cern.ch/lhcb/Boole} \\
+    Rec & \url{https://gitlab.cern.ch/lhcb/Rec} \\
+    Detector & \url{https://gitlab.cern.ch/lhcb/Detector} \\
+    Allen & \url{https://gitlab.cern.ch/lhcb/Allen} \\
+    Lbcom & \url{https://gitlab.cern.ch/lhcb/Lbcom} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+还有一些开发过程中用到的分析仓库，大多数为个人开发，不保证长期维护。
+
+\begin{table}[htbp]
+  \centering
+  \caption{分析相关的个人开发仓库}
+  \label{tab:ana-repos}
+  \begin{tabular}{lll}
+    \toprule
+    名称 & 链接 & 开发者 \\
+    \midrule
+    Tracking图表分析 & \url{https://gitlab.cern.ch/yisheng/tracking_uii_analysis} & Yisheng \\
+    track by track分析 & \url{https://github.com/qgl90/lhcb_recoobjects_analyzer/tree/main} & Renato \\
+    pyCombiners \footnotemark[3] & \url{https://https://gitlab.cern.ch/rquaglia/pyCombiners/} & Renato \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 
 
-\section{Research to be done}
+\footnotetext[3]{pyCombiners 是一个用于重建信号的 Python 库，主要用于组合不同的 track 或者 PID信息来重建物理信号。}
+
+
+
+
+
+
+
+
+
+
+\subsubsection{其他}
+\begin{table}[htbp]
+  \centering
+  \caption{其他常用网站与链接}
+  \label{tab:useful-links-other}
+  \begin{tabular}{ll}
+    \toprule
+    名称 & 链接 \\
+    \midrule
+    Cern 通讯录 & \url{https://lbfence.cern.ch/} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+\section{Research Done（开发历史）}
 
 \textbf{[TODO]}
 
-\section{Research Done}
+
+\section{Research to be done（待研究）}
 
 \textbf{[TODO]}
+
+
 
 \clearpage
 
