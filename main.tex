@@ -99,6 +99,32 @@ language=c++,
 	showspaces=false
 }
 
+% JSON language definition for listings
+\lstdefinelanguage{json}{
+	basicstyle=\footnotesize\ttfamily,
+	showstringspaces=false,
+	breaklines=true,
+	literate=
+	 *{0}{{{\color{blue}0}}}{1}
+	  {1}{{{\color{blue}1}}}{1}
+	  {2}{{{\color{blue}2}}}{1}
+	  {3}{{{\color{blue}3}}}{1}
+	  {4}{{{\color{blue}4}}}{1}
+	  {5}{{{\color{blue}5}}}{1}
+	  {6}{{{\color{blue}6}}}{1}
+	  {7}{{{\color{blue}7}}}{1}
+	  {8}{{{\color{blue}8}}}{1}
+	  {9}{{{\color{blue}9}}}{1}
+	  {\{}{{{\color{red}\{}}}{1}
+	  {\}}{{{\color{red}\}}}}{1}
+	  {[}{{{\color{red}[}}}{1}
+	  {]}{{{\color{red}]}}}{1},
+	string=[s]{"}{"},
+	morestring=[s]{>}{<},
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+}
+
 % 行内代码样式（带浅灰背景）
 \definecolor{inlinebg}{rgb}{0.92,0.92,0.92}
 \lstdefinestyle{inlinestyle}{
@@ -726,8 +752,75 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 
 
 
-\section{Developer Guide：如何添加新算法}
+\section{Developer Guide}
 
+\subsection{如何编译一个stack}
+
+请先确保有如下环境之一：
+\begin{itemize}
+  \item CERN lxplus 或IHEP lxlogin()【请注意不要在EOS盘上编译，否则有概率碰到奇怪的问题，优先用online的机器或者afs】
+  \item 自行安装双系统或者虚拟机，使用cern提供的almalinux9系统(推荐)；
+  \item wsl + docker (作者没试过，但听说目前可行)。
+\end{itemize}
+
+本文的安装根据 \link{https://gitlab.cern.ch/lhcb-core/dev-tools/lb-stack-setup}{lb-stack-setup}，在 CERN lxplus 上编译一个 stack 的步骤如下：
+
+新建一个目录
+
+\begin{lstlisting}[language=bash]
+  cd {workspace/}
+  curl -sSL https://gitlab.cern.ch/lhcb-core/dev-tools/lb-stack-setup/raw/master/setup.py | python3 - stack
+  cd stack
+  vim utils/config.json
+  make Moore # 或者你需要的其他软件包，例如Gauss, Boole, Detector等, 会自动编译依赖的软件包
+\end{lstlisting}
+
+
+然后会让你选择一个tag，默认为 \lstinline{lhcb-master}, 目前，常用的 tag 如下：
+
+\begin{itemize}
+  \item \lstinline{lhcb-run5}: 为二期升级所设置的分支，主要涵盖了 Moore 和 Rec 下的径迹重建算法，
+  \item \lstinline{lhcb-sim11}: 主要包括了Simulation部分的软件，包括Gauss， Boole等。
+  \item 目前有一个暂时使用的整合分支 \lstinline{lhcb-sim11-run5-gluing}，为以上两个分支的整合，主要用于测试和验证。更新会一点点落后于 \lstinline{lhcb-run5} 和 \lstinline{lhcb-sim11}。
+\end{itemize}
+
+对这些nightly的tag，有时候会出现无法编译，或者一些奇奇怪怪的情况，可以查看 \url{https://lhcb-nightlies.web.cern.ch/nightly/{tagname}}，看看对应的软件编译是否也有问题，若有可以在mattermost里面询问，有可能有修复的branch.
+
+编译完成后，如果你想使用vscode 对于c++code 的智能提示，可以在workspace下创建一个 \lstinline{.vscode} 文件夹，并在里面创建一个 \lstinline{c_cpp_properties.json} 文件，内容类似如下（将[StackPath] 替换为你的实际路径）：
+
+\begin{lstlisting}[language=json]
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "compileCommands": [
+                "[StackPath]/Rec/build.x86_64_v3-el9-gcc15-opt/compile_commands.json",
+                "[StackPath]/LHCb/build.x86_64_v3-el9-gcc15-opt/compile_commands.json",
+                "[StackPath]/Detector/build.x86_64_v3-el9-gcc15-opt/compile_commands.json",
+                "[StackPath]/Allen/build.x86_64_v3-el9-gcc15-opt/compile_commands.json",
+                "[StackPath]/Lbcom/build.x86_64_v3-el9-gcc15-opt/compile_commands.json"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
+\end{lstlisting}
+
+这样就可以在vscode中，就不会出现奇奇怪怪的红色报错波浪线了，也方便自动跳转寻找对应的变量定义.
+
+
+
+
+
+\subsection{如何添加一个新算法}
 完整的 tracking sequence 见 OptionFile \url{Moore/Hlt/Moore/run5/options/run5_all_tracking.py}，可帮助你了解整体流程。添加新算法的步骤如下：
 
 \begin{enumerate}
@@ -735,6 +828,39 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 	\item 在 \url{Moore/Hlt/RecoConf/python/RecoConf/run5_default_tracking.py}（或其他 option 文件中，不要让一个文件管理所有配置——同一类配置放在一个文件，明显不一致时应讨论新建文件）中添加对应的配置函数，为新算法提供配置参数。
 	\item 在你的 OptionFile 中使用（可参考 \url{run5_all_tracking.py} 的运行方式），确保你的函数能在 \lstinline{Reconstruction()} 中被执行。
 \end{enumerate}
+
+
+\subsection{如何打开一个MR，并请求合并自己的算法}
+
+
+首先，将你写完的算法切换到一个新的分支，并提交到远程仓库：
+\begin{lstlisting}[language=bash]
+  git checkout -b {your_branch_name}
+  pre-commit install # 安装 pre-commit 钩子，确保代码通过语法检查
+  git add {your_new_algorithm.cpp}
+  git commit -m "Add {your_new_algorithm}"
+  git push origin {your_branch_name}
+\end{lstlisting}
+
+
+在 GitLab 上打开一个 MR（Merge Request），并在 MR 描述中说明你的算法的功能、用途以及任何需要注意的事项。确保你的 MR 目标分支是 \lstinline{lhcb-run5} 或其他相关分支。\@ 相关的reviewer 来审查你的代码。
+
+上述操作皆可逆，无需过于担心，创建即可，会有人帮你改的. 即使 为了测试也可以打开一个MR，可以用 not-for-merge 的标签，或者在MR描述中说明， 同时不要求reviewer。
+
+
+
+
+
+
+
+
+
+
+\subsection{一些常用的网站与链接}
+
+待添加
+
+
 
 \section{Research to be done}
 
