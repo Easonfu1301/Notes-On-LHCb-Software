@@ -176,7 +176,7 @@ LHCb 升级二期中的径迹按穿越的子探测器组合可分为以下几类
 \begin{itemize}
   \item \textbf{Velo track}：仅穿过 TV 的径迹，由 TV standalone tracking 重建。
   \item \textbf{Upstream track}：穿过 TV 和 UP 但不穿过磁铁的径迹，由 Upstream tracking 将 TV track 与 UP hits 匹配得到。
-  \item \textbf{Long track}：贯穿 TV、UP、磁铁及 MT（MP/FT）的径迹，由 Long tracking 重建，是物理分析中最常用的径迹类型。
+  \item \textbf{Long track}：贯穿 TV、(UP)、磁铁及 MT（MP/FT）的径迹，由 Long tracking 重建，是物理分析中最常用的径迹类型。
   \item \textbf{Downstream track}：穿过 UP 和 MT 但不穿过 TV 的径迹（如 $K_S^0$、$\Lambda$ 等长寿命粒子衰变产物），由 Downstream tracking 重建。
   \item \textbf{T track}：仅穿过 MT（MP/FT）的径迹，由 MP/FT standalone tracking 重建。
 \end{itemize}
@@ -987,6 +987,9 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
     2025-09-19 & \tiny\url{https://indico.cern.ch/event/1588173/contributions/6699333/attachments/3139131/5571192/UPTrackingUpdate_19Sept2025.pdf}
         & 更新了Upstream的算法，通过构建了feature，通过chi2和BDT的方式压低GR，同时通过迭代的方式来最大化Eff，最小化GR
         & Steve Blusk \\
+    2025-09-19 & \tiny\url{https://indico.cern.ch/event/1589779/contributions/6699332/attachments/3138692/5569993/250918_gm_UP.pdf}
+        & 首次研究不同设计下的算法优化
+        & Yisheng Fu \\
     2025-10-03 & \tiny\url{https://indico.cern.ch/event/1594681/contributions/6721675/attachments/3147916/5589282/CAT_audurier.pdf}
         & \green{总结了CAT算法的流程，并得到了相对还可以的结果}
         & Benjamin Audurier \\
@@ -1032,6 +1035,9 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
     2025-12-19 & \tiny\url{https://indico.cern.ch/event/1601035/contributions/6843359/attachments/3195213/5687100/20251219_WP2_6.pdf}
         & 将Upstream forward到FT中，但是碰到了FT clustering的一些问题，MC truth仍然会有Ghost rate
         & Hangyi Wu \\
+    2026-01-08 & \tiny\url{https://indico.cern.ch/event/1627102/contributions/6851475/attachments/3205026/5706754/260107-GM.pdf}
+        & 首次研究gap和hit eff对于UP standalone的影响以及对于Long Track的影响，同时，也有了一个before scoping的设计
+        & Yisheng Fu \\
     2026-01-23 & \tiny\url{https://indico.cern.ch/event/1634803/contributions/6901410/attachments/3206246/5709772/rta_report_23Jan.pdf}
         & 重新训练了MatchNN的神经网络，在GR保持相近的时候Eff有5\%左右的提升
         & Noah Weidner \\
@@ -1083,6 +1089,9 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
     2026-03-20 & \tiny\url{https://indico.cern.ch/event/1634809/contributions/7004804/attachments/3242438/5784028/CAT_audurier.pdf}
         & 基于很早以前的UP standalone的CAT算法的研究，主要更新了一个BDT filtering和Clone Killer，压低了GR
         & Benjamin Audurier \\
+    2026-04-02 & \tiny\url{https://indico.cern.ch/event/1671010/contributions/7025312/attachments/3250410/5800623/260402-GM.pdf}
+        & 尝试优化FT Standalone的算法，并对对齐Acceptance作了一些初步的研究
+        & Yisheng Fu \\
     2026-04-10 & \tiny\url{https://indico.cern.ch/event/1634810/contributions/7035971/attachments/3253805/5807509/long_tracking_test_20260410.pdf}
         & \gray{比较早期的对于各种长径迹算法的比较，可能仍存在一些定义问题}
         & Xiaoyue Yin \\
@@ -1128,13 +1137,64 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
     2026-06-05 & \tiny\url{https://indico.cern.ch/event/1634814/contributions/7130885/attachments/3289304/5880912/rta-report_0605.pdf}
         & Standalone SciFi tracking performance with timing
         & Jialu Wang \\
+    2026-06-18 & \tiny\url{https://indico.cern.ch/event/1700153/contributions/7150136/attachments/3298248/5899249/260618-UP-GM.pdf}
+        & 复现了Hangyi对于Gap的研究结果，并对比不同设计的Eff随Gap下降的程度
+        & Yisheng Fu \\
+    2026-06-21 & \tiny\url{https://indico.cern.ch/event/1702351/contributions/7160446/attachments/3302839/5908679/260624-proj-sort%20tracking%20result.pdf}
+        & 根据已有的TrackingSequence 整理了很多结果，包括每个算法独立重建出的track比例，Eff/GR的2D分析
+        & Yisheng Fu \\
     \bottomrule
   \end{longtable}
 
 
 \section{Research to be done（待研究）}
 
-\textbf{[TODO]}
+下面列举一些可以做的事情，然后每一个subsection代表一个具体的研究进展
+
+
+
+\renewcommand{\arraystretch}{1.6}
+\begin{longtable}{c>{\centering\arraybackslash}m{8cm}c}
+    \caption{待研究事项}
+    \label{tab:research-todo} \\
+    \toprule
+    开始日期 & 简介 \\
+    \midrule
+    \endfirsthead
+    \caption{待研究事项（续）} \\
+    \toprule
+    开始日期 & 简介 \\
+    \midrule
+    \endhead
+    \bottomrule
+    \endfoot
+    2027.07.20 & 整理Tracking Performance的结果\\
+    \bottomrule
+  \end{longtable}
+
+
+\subsection{整理Tracking Performance的结果}
+\subsubsection{Plan}
+\begin{itemize}
+  \item Eff可以通过checker获得，optionfile为\url{Moore/Hlt/RecoConf/python/RecoConf/run5_default_tracking.py}
+  \item 动量分辨可以通过dump track得到, 函数位于\url{/home/easonfu/Software/260701_Moore/stack/Rec/Pr/PrMCTools/src/PrTupleReconstructedTracks.cpp}
+\end{itemize}
+
+
+
+\subsubsection{Result}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
