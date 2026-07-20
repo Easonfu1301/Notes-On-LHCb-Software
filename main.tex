@@ -1179,6 +1179,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
   \item Eff可以通过checker获得，optionfile为\url{Moore/Hlt/RecoConf/python/RecoConf/run5_default_tracking.py}
   \item 动量分辨可以通过dump track得到, 函数位于 \url{/home/easonfu/Software/260701_Moore/stack/Rec/Pr/PrMCTools/src/PrTupleReconstructedTracks.cpp}， 可以通过改一下 \path{run5_default_tracking.py} 然后把 Track dump 下来，应该会生成一个\path{ntuple.root}，之后可以通过 \link{https://github.com/qgl90/lhcb_recoobjects_analyzer/tree/main}{ Lhcb Reco objects Analyzer }（Renato 的 track by track 分析工具）进行分析。或者自己分bin拟合
   \item \red{注意, 得使用fitted以后的track进行dump和画Momentum Resolution, KF之前的track的动量计算仅为估计}
+  \item \red{Renato的计算方式是直接通过mean和std计算，比较容易受到离群值影响，建议改为拟合hist，自己写一个简单的画图工具应该也不是很难}
 \end{itemize}
 
 
