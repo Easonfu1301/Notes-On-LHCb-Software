@@ -4,14 +4,19 @@
 \usepackage{listings}
 \usepackage{xcolor} %颜色
 \definecolor{skyblue}{RGB}{135,206,235}
-\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\definecolor{darkblue}{RGB}{0,0,160}
+\newcommand{\blue}[1]{\textcolor{darkblue}{#1}}
 \newcommand{\red}[1]{\textcolor{red}{#1}}
-\newcommand{\green}[1]{\textcolor{green}{#1}}
+\definecolor{darkgreen}{RGB}{0,128,0}
+\newcommand{\green}[1]{\textcolor{darkgreen}{#1}}
+\definecolor{darkred}{RGB}{160,0,0}
+\newcommand{\darkred}[1]{\textcolor{darkred}{#1}}
 \newcommand{\skyblue}[1]{\textcolor{skyblue}{#1}}
 \newcommand{\orange}[1]{\textcolor{orange}{#1}}
 \newcommand{\purple}[1]{\textcolor{purple}{#1}}
 \newcommand{\teal}[1]{\textcolor{teal}{#1}}
 \newcommand{\violet}[1]{\textcolor{violet}{#1}}
+\newcommand{\gray}[1]{\textcolor{gray}{#1}}
 \newcommand{\link}[2]{\href{#1}{\textcolor{blue}{\underline{#2}}}}
 \newcommand{\sectiontitle}[1]{%
   \begin{center}
@@ -919,16 +924,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
   \end{tabular}
 \end{table}
 
-
-
 \footnotetext[3]{pyCombiners 是一个用于重建信号的 Python 库，主要用于组合不同的 track 或者 PID信息来重建物理信号。}
-
-
-
-
-
-
-
 
 
 
@@ -949,7 +945,191 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 
 \section{Research Done（开发历史）}
 
-\textbf{[TODO]}
+注：可以直接查看会议indico，地址一般是contributions前的那一串网址，将用不同的颜色来标记不同的研究类型，如下解释
+
+\begin{itemize}
+  \item 黑色， 一般过程进展
+  \item \blue{蓝色}， 算法完成后的报告
+  \item \red{红色}， 性能分析报告
+  \item \green{绿色}， 会议报告或者总结性报告
+\end{itemize}
+
+\renewcommand{\arraystretch}{1.6}
+\begin{longtable}{c>{\centering\arraybackslash}m{4cm}m{6cm}c}
+    \caption{开发历史记录}
+    \label{tab:research-done} \\
+    \toprule
+    日期 & Slides & 简介 & 研究人 \\
+    \midrule
+    \endfirsthead
+    \caption{开发历史记录（续）} \\
+    \toprule
+    日期 & Slides & 简介 & 研究人 \\
+    \midrule
+    \endhead
+    \bottomrule
+    \endfoot
+    2025-06-27 & \tiny\url{https://indico.cern.ch/event/1561681/contributions/6581662/attachments/3094324/5481373/Audurier_CAT.pdf}
+        & 初步实现了使用了CAT的算法，重建UP standalone track
+        & Benjamin Audurier \\
+    2025-07-18 & \tiny\url{https://indico.cern.ch/event/1570347/contributions/6620216/attachments/3106728/5506201/250629-UP-recon-MLP-formal.pdf}
+        & UP MLP的算法，显著降低GR和提高Eff，估计10-20\%GR，极高Eff，更详细的版本
+        & Yisheng Fu \\
+    2025-07-25 & \tiny\url{https://indico.cern.ch/event/1567320/contributions/6617323/attachments/3110445/5513655/UPStandalone_newAlgorithm_mingjie_v2.pdf}
+        & 通过借鉴TV的Standalone算法，显著提高了CPU算法下的standalone UP的重建，GR 从 ～90 -> 11\%
+        & MingJie Feng \\
+    2025-07-25 & \tiny\url{https://indico.cern.ch/event/1567320/contributions/6624089/attachments/3110446/5513656/250725-UP-recon-MLP-formal.pdf}
+        & 采用了MLP的算法，显著降低GR和提高Eff，估计10-20\%GR，极高Eff
+        & Yisheng Fu \\
+    2025-08-29 & \tiny\url{https://indico.cern.ch/event/1581008/contributions/6667283/attachments/3125430/5543227/UPTrackingUpdate_29Aug2025.pdf}
+        & 初步介绍了Upstream的重建，和选择策略
+        & Steve Blusk \\
+    2025-09-19 & \tiny\url{https://indico.cern.ch/event/1588173/contributions/6699333/attachments/3139131/5571192/UPTrackingUpdate_19Sept2025.pdf}
+        & 更新了Upstream的算法，通过构建了feature，通过chi2和BDT的方式压低GR，同时通过迭代的方式来最大化Eff，最小化GR
+        & Steve Blusk \\
+    2025-10-03 & \tiny\url{https://indico.cern.ch/event/1594681/contributions/6721675/attachments/3147916/5589282/CAT_audurier.pdf}
+        & \green{总结了CAT算法的流程，并得到了相对还可以的结果}
+        & Benjamin Audurier \\
+    2025-10-17 & \tiny\url{https://indico.cern.ch/event/1582103/contributions/6751435/attachments/3156585/5606987/251017-UP_Standalone_eval.pdf}
+        & 研究了无gap设计下的性能变化，提出了通过优化器设计来研究不同探测器好坏的方法，同时优化了UPStandalone的算法，通过4-hit寻找和多次迭代的方式，将CPU算法的GR降低到~3\%, 同时效率提升了~10\% ，还讨论了一部分对于UP track定义的问题
+        & Yisheng Fu \\
+    2025-10-21 & \tiny\url{https://indico.cern.ch/event/1603310/contributions/6757402/attachments/3158712/5611425/axu_2510_retina_up.pdf}
+        & FPGA算法在UP standalone重建上的起步阶段，一些RETINA项目的背景介绍
+        & Ao Xu \\
+    2025-11-07 & \tiny\url{https://indico.cern.ch/event/1601032/contributions/6780497/attachments/3169664/5634410/20251107_WP2_6.pdf}
+        & \green{极大的改善了Upstream的算法，Eff在>5GeV的时候接近94\%, GR 只有8.7\%，为后续Forward算法奠定基础}
+        & Hangyi Wu \\
+    2025-11-07 & \tiny\url{https://indico.cern.ch/event/1601032/contributions/6784753/attachments/3169735/5634571/LongTrack-Performance-Jialu.pdf}
+        & 初步检查long track的效率（MatchNN\_UP），发现MP的hit eff较低
+        & Jialu Wang \\
+    2025-11-13 & \tiny\url{https://indico.cern.ch/event/1618183/contributions/6824078/attachments/3188028/5672918/251207-FPGA-report.pdf}
+        & FPGA算法在UP standalone重建上的起步阶段，较为初步的slides，分析如何每个hit会在HoughSpace中占据多少空间
+        & Yisheng Fu \\
+    2025-11-21 & \tiny\url{https://indico.cern.ch/event/1601033/contributions/6805560/attachments/3178880/5654068/rta-report_1121.pdf}
+        & 初步检查MP的hit eff的问题
+        & Jialu Wang \\
+    2025-11-21 & \tiny\url{https://indico.cern.ch/event/1601033/contributions/6805954/attachments/3178872/5654004/20251121_WP2_6.pdf}
+        & 开始实现ForwardFT，Eff暂时还比较差，目测只有70\%
+        & Hangyi Wu \\
+    2025-11-21 & \tiny\url{https://indico.cern.ch/event/1601033/contributions/6806192/attachments/3178990/5654239/251121-downstream-report.pdf}
+        & 初步完成了UP-MP的downstream训练，基于XGBoost，并给出了UP/MP的standalone是Cheated/Real的情况的数值对比
+        & Yisheng Fu \\
+    2025-11-27 & \tiny\url{https://indico.cern.ch/event/1618183/contributions/6824078/attachments/3188028/5672918/251207-FPGA-report.pdf}
+        & FPGA算法在UP standalone重建上的起步阶段，较为初步的slides，分析如何分霍夫空间中的bin
+        & Yisheng Fu \\
+    2025-12-04 & \tiny\url{https://indico.cern.ch/event/1618183/contributions/6824078/attachments/3188028/5672918/251207-FPGA-report.pdf}
+        & 首次展示了FPGA算法在UP standalone重建上的可能性，较为初步的slides
+        & Yisheng Fu \\
+    2025-12-05 & \tiny\url{https://indico.cern.ch/event/1601034/contributions/6745892/subcontributions/581591/attachments/3187851/5672517/rta-report_1205.pdf}
+        & 放松了一些MP standalone的chi2限制，在GR不变的条件下提高了Eff
+        & Jialu Wang \\
+    2025-12-08 & \tiny\url{https://indico.cern.ch/event/1618183/contributions/6824078/attachments/3188028/5672918/251207-FPGA-report.pdf}
+        & \green{首次展示了FPGA算法在UP standalone重建上的可能性，并对比了性能，有和CPU算法相似的水平}
+        & Yisheng Fu \\
+    2025-12-19 & \tiny\url{https://indico.cern.ch/event/1601035/contributions/6841664/attachments/3195242/5687138/rta_report_19Dec.pdf}
+        & 重新训练MatchNN MLP用于Upgrade II
+        & Noah Weidner \\
+    2025-12-19 & \tiny\url{https://indico.cern.ch/event/1601035/contributions/6843359/attachments/3195213/5687100/20251219_WP2_6.pdf}
+        & 将Upstream forward到FT中，但是碰到了FT clustering的一些问题，MC truth仍然会有Ghost rate
+        & Hangyi Wu \\
+    2026-01-23 & \tiny\url{https://indico.cern.ch/event/1634803/contributions/6901410/attachments/3206246/5709772/rta_report_23Jan.pdf}
+        & 重新训练了MatchNN的神经网络，在GR保持相近的时候Eff有5\%左右的提升
+        & Noah Weidner \\
+    2026-01-23 & \tiny\url{https://indico.cern.ch/event/1634803/contributions/6895320/attachments/3206280/5709336/20260123.pdf}
+        & 将Upstream forward到FT中，但是碰到了FT clustering的一些问题，MC truth仍然会有Ghost rate
+        & Hangyi Wu \\
+    2026-01-23 & \tiny\url{https://indico.cern.ch/event/1634803/contributions/6902955/attachments/3206274/5709327/260122-Tracking-overall.pdf}
+        & 通过BDT和Greedy algorithm的方式，写了UP-MP、UP-FT的匹配算法，FT部分暂时使用MC truth，同时通过连接Upstream Track和Downstream Track形成Long Track
+        & Yisheng Fu \\
+    2026-02-06 & \tiny\url{https://indico.cern.ch/event/1634806/contributions/6925949/attachments/3215239/5727732/20260206_WP2_6.pdf}
+        & 简要讨论了一下ForwardMP的可能性
+        & Hangyi Wu \\
+    2026-02-06 & \tiny\url{https://indico.cern.ch/event/1634806/contributions/6927934/attachments/3215308/5727861/260205-Tracking-overall.pdf}
+        & 更新了UP-FT的匹配逻辑，原来使用MC truth来做匹配，现在使用真实重建的FTTrack信息来做匹配；改变了Upstream+Downstream的方式，改为直接用Downstream匹配TV track，轻微改善了效率；对当前重建算法的效率损失作了分析，为后续LHCb Week报告做准备
+        & Yisheng Fu \\
+    2026-02-06 & \tiny\url{https://indico.cern.ch/event/1634806/contributions/6929207/attachments/3215244/5727741/RTA_report_06Feb.pdf}
+        & 更新了MatchNN + UP的逻辑，尝试了通过不同的UP hit和chi2来降低GR，差不多能从40降到30+
+        & Noah Weidner \\
+    2026-02-12 & \tiny\url{https://indico.cern.ch/event/1639525/contributions/6940783/attachments/3219801/5737086/260212_FPGA_updates.pdf}
+        & 简要对比CPU算法和FPGA算法在Downstream/Longtrack上的性能差异
+        & Yisheng Fu \\
+    2026-02-19 & \tiny\url{https://indico.cern.ch/event/1651811/contributions/6944029/attachments/3223504/5744615/251219-FPGA-report.pdf}
+        & \green{总结了FPGA算法在UP上的性能，达到了类似CPU算法的水平}
+        & Yisheng Fu \\
+    2026-02-20 & \tiny\url{https://indico.cern.ch/event/1634807/contributions/6956345/attachments/3224530/5746357/20260220_WP2_6.pdf}
+        & 一些小的对于ForwardFT的修复
+        & Hangyi Wu \\
+    2026-02-20 & \tiny\url{https://indico.cern.ch/event/1634807/contributions/6953401/attachments/3224089/5745779/260219-Tracking-overall.pdf}
+        & \green{在即将在LHCb Week上作汇报，回顾了不同的重建算法，并比较了在不同亮度和不同样本下的重建性能，并根据每一步的效率下降给出了改进方式}
+        & Yisheng Fu \\
+    2026-02-20 & \tiny\url{https://indico.cern.ch/event/1634807/contributions/6955811/attachments/3224040/5745691/RTA_WP2-6_Update_20Feb.pdf}
+        & 对于MatchNN\_UP的算法做了较小的改善，研究了加入UP hit对于Eff和GR的影响，但是影响看上去没有那么大，大约GR从40多到了30多
+        & Christoph Langenbruch \\
+    2026-03-05 & \tiny\url{https://indico.cern.ch/event/1639528/contributions/6976644/attachments/3232126/5761678/260305-FPGA-report.pdf}
+        & \green{对UP FPGA算法的一些更新，同时将结果送入到stack中，可以得到Longtrack的结果，并对于不同亮度，分bin作了一些优化和对比}
+        & Yisheng Fu \\
+    2026-03-06 & \tiny\url{https://indico.cern.ch/event/1634808/contributions/6975333/attachments/3233469/5764930/langenbruch.pdf}
+        & MatchNN的进展，修复了一定的Velo Endstate的bug，降低了一定的ghost rate，但是仍然很高
+        & Christoph Langenbruch \\
+    2026-03-06 & \tiny\url{https://indico.cern.ch/event/1634808/contributions/6975325/attachments/3233470/5764931/20260306_WP2_6.pdf}
+        & \green{总结了Forward FT的性能，加入BDT后具有几种算法中最好的LongFT性能}
+        & Hangyi Wu \\
+    2026-03-06 & \tiny\url{https://indico.cern.ch/event/1634808/contributions/6975336/attachments/3233472/5764933/RTA%20WP6%202026_03_05%20pyCombiner-4.pdf}
+        & 开始对于物理性能进行研究，第一次使用pyCombiners
+        & Jiahui Zhuo \\
+    2026-03-06 & \tiny\url{https://indico.cern.ch/event/1634808/contributions/6976057/attachments/3233497/5764981/260305-FPGA-report.pdf}
+        & 在WP2-6上面第一次汇报使用FPGA用于UP standalone的重建，达到了与CPU算法重建类似的性能
+        & Yisheng Fu \\
+    2026-03-20 & \tiny\url{https://indico.cern.ch/event/1634809/contributions/7004804/attachments/3242438/5784028/CAT_audurier.pdf}
+        & 基于很早以前的UP standalone的CAT算法的研究，主要更新了一个BDT filtering和Clone Killer，压低了GR
+        & Benjamin Audurier \\
+    2026-04-10 & \tiny\url{https://indico.cern.ch/event/1634810/contributions/7035971/attachments/3253805/5807509/long_tracking_test_20260410.pdf}
+        & \gray{比较早期的对于各种长径迹算法的比较，可能仍存在一些定义问题}
+        & Xiaoyue Yin \\
+    2026-04-10 & \tiny\url{https://indico.cern.ch/event/1634810/contributions/7037262/attachments/3254004/5807886/20260410_WP2_6.pdf}
+        & 表述了ForwardFT的性能，开始研究ForwardMP
+        & Hangyi Wu \\
+    2026-04-17 & \tiny\url{https://indico.cern.ch/event/1634811/contributions/7048077/attachments/3258162/5816613/long_tracking_20260417.pdf}
+        & \gray{对所有tracking sequence进行总体分析。\darkred{\footnotesize （注意：此slides中KF的outlier removal没有打开，造成Eff vs GR表现比较奇怪，且部分定义存在问题，建议谨慎阅读）}}
+        & Xiaoyue Yin \\
+    2026-04-17 & \tiny\url{https://indico.cern.ch/event/1634812/contributions/7082144/attachments/3272085/5845506/long_tracking_20260508.pdf}
+        & 初次尝试combine几种tracking算法得到最后的结果，并发现Eff vs GR较为奇怪，后续发现部分原因为没有打开Kalman Filter的outlier removal
+        & Yisheng Fu \\
+    2026-04-17 & \tiny\url{https://indico.cern.ch/event/1634811/contributions/7048329/attachments/3258164/5816406/20260417_WP2_6.pdf}
+        & 开始尝试实现ForwardMP的算法
+        & Hangyi Wu \\
+    2026-04-17 & \tiny\url{https://indico.cern.ch/event/1634811/contributions/7048146/attachments/3258158/5816390/langenbruch.pdf}
+        & 更新了一些MatchNN的add UP hit的算法，调整了策略并\red{显著}降低了GR（$\sim50\% \rightarrow \sim20\%$）
+        & Christoph Langenbruch \\
+    2026-04-17 & \tiny\url{https://indico.cern.ch/event/1634811/contributions/7048078/attachments/3258188/5816577/Bs2mumu.pdf}
+        & 使用pyCombiners重建了信号，使用的是Backward sequence dump下来的信号，还不是merge以后的
+        & Ozlem Ozcelik \\
+    2026-04-17 & \tiny\url{https://indico.cern.ch/event/1634811/contributions/7049125/attachments/3258180/5816470/rta-report_417.pdf}
+        & 比较早期的timing SciFi的研究，解释了算法但暂未对性能有很大影响
+        & Jialu Wang \\
+    2026-05-08 & \tiny\url{https://indico.cern.ch/event/1634812/contributions/7082144/attachments/3272085/5845506/long_tracking_20260508.pdf}
+        & \red{对所有tracking sequence进行总体分析，修复了outlier和定义的问题}
+        & Xiaoyue Yin \\
+    2026-05-08 & \tiny\url{https://indico.cern.ch/event/1634812/contributions/7082144/attachments/3272085/5845506/long_tracking_20260508.pdf}
+        & 总结了当前的tracking现状（除了ForwardMP基本完成），尝试combine几种tracking算法得到最后的结果，并对acceptance、UP的存在与否作了一些研究，同时有一个网站来可视化结果：\url{www.lhcb-upgradeii.com}
+        & Yisheng Fu \\
+    2026-05-08 & \tiny\url{https://indico.cern.ch/event/1634812/contributions/7079711/attachments/3271367/5843902/20260508_WP2_6.pdf}
+        & 采用1维霍夫变换的方法研究ForwardMP算法，达到了较高的效率和较低的GR
+        & Hangyi Wu \\
+    2026-05-22 & \tiny\url{https://indico.cern.ch/event/1634813/contributions/7105386/attachments/3280377/5861997/Performance_21May2026.pdf}
+        & \red{对$\eta$缩减可能带来的影响进行了一些分析}
+        & Steve Blusk \\
+    2026-05-22 & \tiny\url{https://indico.cern.ch/event/1634813/contributions/7105387/attachments/3280344/5861933/Poster_UP.pdf}
+        & \green{Tracking Performance on LHCb UP detector in Upgrade II（Poster）}
+        & Yisheng Fu \\
+    2026-06-05 & \tiny\url{https://indico.cern.ch/event/1634814/contributions/7127661/attachments/3288833/5879990/20260605_WP2_6.pdf}
+        & \blue{完成了 Long track 的 ForwardMP 部分}
+        & Hangyi Wu \\
+    2026-06-05 & \tiny\url{https://indico.cern.ch/event/1634814/contributions/7130885/attachments/3289304/5880912/rta-report_0605.pdf}
+        & Standalone SciFi tracking performance with timing
+        & Jialu Wang \\
+    \bottomrule
+  \end{longtable}
 
 
 \section{Research to be done（待研究）}
