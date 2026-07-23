@@ -1252,10 +1252,20 @@ Long track 动量分辨率 $\delta p / p$ 随动量 $p$ 的变化如 Figure.~\re
     \text{物理过程} &:&~ \text{Std} \;\Rightarrow\; \text{Opt2}
 \end{eqnarray}
 
-原因是发现 July 样本与 January 样本不一致，上述 revert 可使样本回到 January 的状态，便于对比。详细的比较可以见 MR \link{https://gitlab.cern.ch/lhcb/Moore/-/merge_requests/6314}{!6314}。
+原因是发现 July 样本与 January 样本不一致，上述 revert 可使样本回到 January 的状态，便于对比。详细的讨论可以见 MR \link{https://gitlab.cern.ch/lhcb/Moore/-/merge_requests/6314}{!6314}。
 
+目前想要对比一下，不同的设计（主要是RL有所差异）带来多少的性能损失，包括
+\begin{itemize}
+    \item p resolution
+    \item 从Standalone到Long 的Eff和Ghost变化，主要有
+    \begin{itemize}
+        \item UP standalone, 
+        \item Backward Downstream MT
+        \item Backward, Forward, Match(with, without) Long MT
+    \end{itemize}
+\end{itemize}
 
-
+\red{先看看 p resolution, 如果差异比较大考虑画一下后面几个图}
 
 \subsubsection{Result}
 
