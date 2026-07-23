@@ -1217,8 +1217,10 @@ Long track 重建效率与 Ghost rate 随动量 $p$ 的变化如 Figure.~\ref{fi
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.45\linewidth]{Studies/整理Tracking_Performance的结果/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_efficiency_P.pdf}
-    \includegraphics[width=0.45\linewidth]{Studies/整理Tracking_Performance的结果/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_ghost_P.pdf}    
-    \caption{Long track 重建效率（左）与 Ghost rate（右）随动量 $p$ 的变化。图中分别给出了 Forward、Backward、Match（不含 UP hits）三种独立策略以及三者合并（Merged）后的结果。所有 track 均为 Kalman Filter 拟合前的表现。}
+    \includegraphics[width=0.45\linewidth]{Studies/整理Tracking_Performance的结果/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_ghost_P.pdf}
+    \includegraphics[width=0.45\linewidth]{Studies/整理Tracking_Performance的结果/long_tracking_default_Long_MT_pre_kf_02_long_UP_Forward_vs_Backward_vs_Match_noUP_vs_Merged_efficiency_P.pdf}
+    \includegraphics[width=0.45\linewidth]{Studies/整理Tracking_Performance的结果/long_tracking_default_Long_MT_pre_kf_02_long_UP_Forward_vs_Backward_vs_Match_noUP_vs_Merged_ghost_P.pdf}
+    \caption{Long track 重建效率（左）与 Ghost rate（右）随动量 $p$ 的变化。上排：checker \texttt{02\_long}（不含 UP hits）；下排：checker \texttt{02\_long\_UP}（要求包含 UP hits）。图中分别给出了 Forward、Backward、Match 三种独立策略以及三者合并（Merged）后的结果。所有 track 均为 Kalman Filter 拟合前的表现。}
     \label{fig:eff-ghost}
 \end{figure}
 
@@ -1235,7 +1237,7 @@ Long track 动量分辨率 $\delta p / p$ 随动量 $p$ 的变化如 Figure.~\re
     \label{fig:momentum-resolution}
 \end{figure}
 
-\newpage
+
 \subsection{初步对比FTDR 和 UP.T design 的 p resolution}
 \subsubsection{Plan}
 
