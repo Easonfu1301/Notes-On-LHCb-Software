@@ -517,7 +517,7 @@ FT（Fibre Tracker）是 MT 外围的闪烁光纤径迹探测器，与 Run 3 的
 
 
 \subsection{Standalone Tracking}
-各子探测器均有独立的径迹重建算法：
+各子探测器均有独立的径迹重建算法，见 Table.~\ref{tab:standalone-algos}。
 
 \begin{table}[htbp]
   \centering
@@ -549,7 +549,7 @@ Downstream tracking 的目标是将 UP track 与 MT（MP + FT）的 standalone t
   \item 通过 Kalman Filter 拟合后，用 Long track 去重（declone）得到最终的最佳 downstream track。
 \end{enumerate}
 
-对应算法如下：
+对应算法见 Table.~\ref{tab:downstream-algos}。
 
 \begin{table}[htbp]
   \centering
@@ -573,7 +573,7 @@ Downstream tracking 的目标是将 UP track 与 MT（MP + FT）的 standalone t
 
 \subsection{Upstream Tracking}
 
-Upstream tracking 的目标是将 TV track（Velo track）与 UP hits 进行匹配，重建出穿过 TV 和 UP 但不经过磁铁的 upstream track。其核心算法为：
+Upstream tracking 的目标是将 TV track（Velo track）与 UP hits 进行匹配，重建出穿过 TV 和 UP 但不经过磁铁的 upstream track。其核心算法见 Table.~\ref{tab:upstream-algos}。
 
 \begin{table}[htbp]
   \centering
@@ -603,7 +603,7 @@ Long tracking 的目标是将 TV track 与下游 MT（MP + FT）的 track 连接
 
 最后将三种来源的 long track 进行合并（merge）得到最终的 long track 集合。
 
-对应算法如下：
+对应算法见 Table.~\ref{tab:long-algos}。
 
 \begin{table}[htbp]
   \centering
@@ -694,7 +694,7 @@ Long Tracking 的算法流向如 Figure.~\ref{fig:long-tracking-flow} 所示。
 
 \textbf{第五步：Chi2 筛选} —— 拟合后通过 \lstinline{select_tracks_chi2()} 调用 \texttt{TrackBestTrackCreator}，按 $\chi^2/\mathrm{DoF}$ 阈值筛选最佳 track。
 
-对应的核心算法如下：
+对应的核心算法见 Table.~\ref{tab:kf-algos}。
 
 \begin{table}[htbp]
   \centering
@@ -731,7 +731,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 
 \textbf{第四步（可选）：分辨率检查} —— \lstinline{check_track_resolution()} 配置 \texttt{TrackResChecker} / \texttt{TrackResCheckerNT}，对 track 的 hit residual 和 momentum resolution 进行检查。
 
-对应的核心算法如下：
+对应的核心算法见 Table.~\ref{tab:mc-algos}。
 
 \begin{table}[htbp]
   \centering
@@ -772,7 +772,8 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 
 新建一个目录
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=bash, label=lst:stack-setup, caption={编译 stack 的步骤}]
+# 示意性命令，来源：lb-stack-setup
   cd {workspace/}
   curl -sSL https://gitlab.cern.ch/lhcb-core/dev-tools/lb-stack-setup/raw/master/setup.py | python3 - stack
   cd stack
@@ -793,8 +794,8 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 
 编译完成后，如果你想使用vscode 对于c++code 的智能提示，可以在workspace下创建一个 \lstinline{.vscode} 文件夹，并在里面创建一个 \lstinline{c_cpp_properties.json} 文件，内容类似如下（将[StackPath] 替换为你的实际路径， build 后面的编译版本用\lstinline{utils/config.json}决定）：
 
-\begin{lstlisting}[language=json]
-{
+\begin{lstlisting}[language=json, label=lst:vscode-cpp-config, caption={VS Code C++ 配置（.vscode/c_cpp_properties.json）}]
+// .vscode/c_cpp_properties.json
     "configurations": [
         {
             "name": "Linux",
@@ -839,8 +840,8 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 
 
 首先，将你写完的算法切换到一个新的分支，并提交到远程仓库：
-\begin{lstlisting}[language=bash]
-  git checkout -b {your_branch_name}
+\begin{lstlisting}[language=bash, label=lst:git-mr-steps, caption={创建 MR 并推送代码的步骤}]
+# 示意性命令
   pre-commit install # 安装 pre-commit 钩子，确保代码通过语法检查
   git add {your_new_algorithm.cpp}
   git commit -m "Add {your_new_algorithm}"
@@ -864,6 +865,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 \subsection{一些常用的网站与链接}
 
 \subsubsection{软件相关}
+常用软件相关网站与链接见 Table.~\ref{tab:useful-links}。
 \begin{table}[htbp]
   \centering
   \caption{常用软件相关网站与链接}
@@ -885,7 +887,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 \subsection{可能能用到的一些仓库}
 
 
-首先，是 LHCb 官方的 GitLab 仓库，主要包括了 LHCb 的核心软件包，如 Moore、Gauss、Boole、Rec 等。其链接为
+首先，是 LHCb 官方的 GitLab 仓库，主要包括了 LHCb 的核心软件包，如 Moore、Gauss、Boole、Rec 等，见 Table.~\ref{tab:stack-repos}。
 
 \begin{table}[htbp]
   \centering
@@ -907,7 +909,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 \end{table}
 
 
-还有一些开发过程中用到的分析仓库，大多数为个人开发，不保证长期维护。
+还有一些开发过程中用到的分析仓库（见 Table.~\ref{tab:ana-repos}），大多数为个人开发，不保证长期维护。
 
 \begin{table}[htbp]
   \centering
@@ -929,6 +931,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 
 
 \subsubsection{其他}
+其他常用网站与链接见 Table.~\ref{tab:useful-links-other}。
 \begin{table}[htbp]
   \centering
   \caption{其他常用网站与链接}
@@ -1210,7 +1213,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
     \centering
     \includegraphics[width=0.45\linewidth]{Tracking Performance/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_efficiency_P.pdf}
     \includegraphics[width=0.45\linewidth]{Tracking Performance/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_ghost_P.pdf}    \caption{Eff and ghost rate}
-    \label{fig:placeholder}
+    \label{fig:eff-ghost}
 \end{figure}
 
 
@@ -1220,7 +1223,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
     \centering
     \includegraphics[width=0.75\linewidth]{Tracking Performance/long_tracking_default_Long_MT_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_res_dpoverp_vs_P.pdf}
     \caption{Res\_p}
-    \label{fig:placeholder}
+    \label{fig:momentum-resolution}
 \end{figure}
 
 
