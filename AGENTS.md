@@ -192,3 +192,24 @@ int main() {
 1. **每个 listing 第一行必须有文件路径** — 以注释形式标注
 2. **缺失时用 `vscode_askQuestions` 询问用户** — 绝不自行猜测路径
 3. **路径格式** — 根据语言选择注释符号：C/C++ 用 `//`，Python 用 `#`，等等
+
+---
+
+## 研究图片文件夹组织规范
+
+### 基本原则
+- 每个 "Research to be done" 的 `\subsection` 对应一个独立的文件夹，统一放在 `Studies/` 目录下。
+- 文件夹名由该 subsection 标题决定：**空格替换为下划线 `_`**，其余字符保持不变（包括中文）。
+
+### 命名示例
+
+| Subsection 标题 | 对应文件夹路径 |
+|----------------|---------------|
+| 整理Tracking Performance的结果 | `Studies/整理Tracking_Performance的结果/` |
+| 初步对比FTDR 和 UP.T design 的 p resolution | `Studies/初步对比FTDR_和_UP.T_design_的_p_resolution/` |
+
+### 规则总结
+
+1. **公共根目录** — 所有研究相关图片放在 `Studies/` 下
+2. **文件夹名 = 标题（空格→下划线）** — 保持中文及其他字符不变
+3. **`\includegraphics` 路径指向对应文件夹** — 如 `Studies/整理Tracking_Performance的结果/xxx.pdf`

@@ -1162,17 +1162,19 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
     \caption{待研究事项}
     \label{tab:research-todo} \\
     \toprule
-    开始日期 & 简介 \\
+    开始日期 & 简介 & 研究人 \\
     \midrule
     \endfirsthead
     \caption{待研究事项（续）} \\
     \toprule
-    开始日期 & 简介 \\
+    开始日期 & 简介 & 研究人 \\
     \midrule
     \endhead
     \bottomrule
     \endfoot
-    2026.07.20 & 整理Tracking Performance的结果\\
+    \green{2026.07.20} & \green{整理Tracking Performance的结果} & \green{Changcheng liu}\\
+    \blue{2026.07.23} & \blue{初步对比FTDR 和 UP.T design 的 p resolution} & \blue{Changcheng liu}\\
+    \blue{2026.07.23} & \blue{检查FTDR 和 UP.T design 的 hitmap 等信息，观察是否符合预期} & \blue{Hanbing liu}\\
     \bottomrule
   \end{longtable}
 
@@ -1201,7 +1203,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
   有一定不同。这里提供使用该函数产生数据的绘图代码\link{https://gitlab.cern.ch/liuch/tracking-draw}{ p-resolution plot from Liuch }
   
   \item \red{注意, 得使用fitted以后的track进行dump和画Momentum Resolution, KF之前的track的动量计算仅为估计}
-  \item \red{Renato的计算方式是直接通过mean和std计算，比较容易受到离群值影响，建议改为拟合hist(dp/p \_ p 的热图分bin高斯拟合取均值和方差)，自己写一个简单的画图工具应该也不是很难}
+  \item \red{Renato的计算方式是直接通过mean和std计算，比较容易受到离群值影响，建议改为拟合hist($dp/p$ by $p$ 的热图分bin高斯拟合取均值和方差)，自己写一个简单的画图工具应该也不是很难}
 \end{itemize}
 
 
@@ -1212,30 +1214,46 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.45\linewidth]{Tracking Performance/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_efficiency_P.pdf}
-    \includegraphics[width=0.45\linewidth]{Tracking Performance/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_ghost_P.pdf}    \caption{Long track 重建效率（左）与 Ghost rate（右）随动量 $p$ 的变化。图中对比了 Forward、Backward、Match（不含 UP hits）三种策略及合并（Merged）后的结果，均为 Kalman Filter 拟合前的表现。}
+    \includegraphics[width=0.45\linewidth]{Studies/整理Tracking_Performance的结果/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_efficiency_P.pdf}
+    \includegraphics[width=0.45\linewidth]{Studies/整理Tracking_Performance的结果/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_ghost_P.pdf}    
+    \caption{Long track 重建效率（左）与 Ghost rate（右）随动量 $p$ 的变化。图中分别给出了 Forward、Backward、Match（不含 UP hits）三种独立策略以及三者合并（Merged）后的结果。所有 track 均为 Kalman Filter 拟合前的表现。}
     \label{fig:eff-ghost}
 \end{figure}
 
 
 \sectiontitle{Momentum Resolution}
 
+Long track 动量分辨率 $\delta p / p$ 随动量 $p$ 的变化如 Figure.~\ref{fig:momentum-resolution} 所示。
+
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.75\linewidth]{Tracking Performance/long_tracking_default_Long_MT_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_res_dpoverp_vs_P.pdf}
-    \caption{Long track 动量分辨率 $\delta p / p$ 随动量 $p$ 的变化。图中对比了 Forward、Backward、Match（不含 UP hits）三种策略及合并（Merged）后的结果，均为 Kalman Filter 拟合后的表现。}
+    \includegraphics[width=0.45\linewidth]{Studies/整理Tracking_Performance的结果/long_tracking_default_Long_MT_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_res_dpoverp_vs_P.pdf}
+    \includegraphics[width=0.45\linewidth]{Studies/整理Tracking_Performance的结果/long_tracking_default_Long_MT_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Match_vs_Merged_res_dpoverp_vs_P.pdf}
+    \caption{Long track 动量分辨率 $\delta p / p$ 随动量 $p$ 的变化。左图对比了 Forward、Backward、Match（不含 UP hits）三种策略及合并（Merged）后的结果；右图在此基础上额外加入了 Match（含 UP hits）曲线。所有 track 均为 Kalman Filter 拟合后的表现。}
     \label{fig:momentum-resolution}
 \end{figure}
 
 
+\subsection{初步对比FTDR 和 UP.T design 的 p resolution}
+\subsubsection{Plan}
+\begin{itemize}
+  \item 待补充
+\end{itemize}
+
+\subsubsection{Result}
+
+\figplaceholder
 
 
+\subsection{检查FTDR 和 UP.T design 的 hitmap 等信息，观察是否符合预期}
+\subsubsection{Plan}
+\begin{itemize}
+  \item 待补充
+\end{itemize}
 
+\subsubsection{Result}
 
-
-
-
-
+\figplaceholder
 
 
 \clearpage
