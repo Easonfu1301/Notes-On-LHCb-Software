@@ -1174,7 +1174,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
     \endfoot
     \green{2026.07.20} & \green{整理Tracking Performance的结果} & \green{Changcheng liu}\\
     \blue{2026.07.23} & \blue{初步对比FTDR 和 UP.T design 的 p resolution} & \blue{Changcheng liu}\\
-    \blue{2026.07.23} & \blue{检查FTDR 和 UP.T design 的 hitmap 等信息，观察是否符合预期} & \blue{Hanbing liu}\\
+    % \blue{2026.07.23} & \blue{检查FTDR 和 UP.T design 的 hitmap 等信息，观察是否符合预期} & \blue{Hanbing liu}\\
     \bottomrule
   \end{longtable}
 
@@ -1235,25 +1235,40 @@ Long track 动量分辨率 $\delta p / p$ 随动量 $p$ 的变化如 Figure.~\re
     \label{fig:momentum-resolution}
 \end{figure}
 
-
+\newpage
 \subsection{初步对比FTDR 和 UP.T design 的 p resolution}
 \subsubsection{Plan}
+
+目前，产生了两种样本，
 \begin{itemize}
-  \item 待补充
+    \item \url{/publicfs/lhcb/user/fuyisheng/public/260704_newsamples/production/workdir_MPFT_revertall_baseline_250711_updated_with_5mm_cut_large_sample}
+    \item \url{/publicfs/lhcb/user/fuyisheng/public/260704_newsamples/production/workdir_UPMPFT_revertall_baseline_250711_updated_with_5mm_cut_large_sample}
 \end{itemize}
+
+前者为的UP为UP.T的设计，后者为UP的FTDR设计，同时，revert了最新的两个设置
+\begin{eqnarray}
+    \text{Electron cut} &=& 0.025mm \Rightarrow \text{Electron cut} = 5mm\\
+    \text{Version FT} &=& \text{Version MP} =  \text{proto.v00.03} \\
+    \text{物理过程换从Std还为Opt2}
+\end{eqnarray}
+
+原因是发现July的样本和Jan的样本不一致，以上改变能回到Jan的样本，便于比较
+
+
+
 
 \subsubsection{Result}
 
 \figplaceholder
 
 
-\subsection{检查FTDR 和 UP.T design 的 hitmap 等信息，观察是否符合预期}
-\subsubsection{Plan}
-\begin{itemize}
-  \item 待补充
-\end{itemize}
+% \subsection{检查FTDR 和 UP.T design 的 hitmap 等信息，观察是否符合预期}
+% \subsubsection{Plan}
+% \begin{itemize}
+%   \item 待补充
+% \end{itemize}
 
-\subsubsection{Result}
+% \subsubsection{Result}
 
 \figplaceholder
 
