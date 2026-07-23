@@ -1176,22 +1176,52 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 \subsection{整理Tracking Performance的结果}
 \subsubsection{Plan}
 \begin{itemize}
-  \item Eff可以通过checker获得，optionfile为\url{Moore/Hlt/RecoConf/python/RecoConf/run5_default_tracking.py}
+  \item Eff和Ghost都可以通过checker获得，optionfile为\url{Moore/Hlt/RecoConf/python/RecoConf/run5_default_tracking.py}。构造方式分别为
+
+\begin{eqnarray}
+    \text{Eff}(p) &=& \frac{\text{Reconstructed}(p)}{\text{Reconstructible}(p)}\\
+    \text{Ghost Rate}(p) &=& \frac{\text{Ghosts Track}(p_{\text{Estimate}})}{\text{Total Track}(p_{\text{Estimate}})}
+\end{eqnarray}
+
   \item 动量分辨可以通过dump track得到, 函数位于 \url{/home/easonfu/Software/260701_Moore/stack/Rec/Pr/PrMCTools/src/PrTupleReconstructedTracks.cpp}， 可以通过改一下 \path{run5_default_tracking.py} 然后把 Track dump 下来，应该会生成一个\path{ntuple.root}，之后可以通过 \link{https://github.com/qgl90/lhcb_recoobjects_analyzer/tree/main}{ Lhcb Reco objects Analyzer }（Renato 的 track by track 分析工具）进行分析。或者自己分bin拟合
+
+  \item 同样可以通过 \url{stack/Rec/Tr/TrackCheckers/src/TrackResChecker.cpp} 得到，需要注意的是，该函数通过
+  \begin{eqnarray}
+      dp/p = \frac{p_{\text{true}} - p_{\text{reco}}}{p_{\text{reco}}}
+  \end{eqnarray}
+  定义，与renato定义的
+  \begin{eqnarray}
+      dp/p = \frac{p_{\text{reco}} - p_{\text{true}}}{p_{\text{true}}}
+  \end{eqnarray}
+  
+  有一定不同。这里提供使用该函数产生数据的绘图代码\link{https://gitlab.cern.ch/liuch/tracking-draw}{ p-resolution plot from Liuch }
+  
   \item \red{注意, 得使用fitted以后的track进行dump和画Momentum Resolution, KF之前的track的动量计算仅为估计}
-  \item \red{Renato的计算方式是直接通过mean和std计算，比较容易受到离群值影响，建议改为拟合hist，自己写一个简单的画图工具应该也不是很难}
+  \item \red{Renato的计算方式是直接通过mean和std计算，比较容易受到离群值影响，建议改为拟合hist(dp/p \_ p 的热图分bin高斯拟合取均值和方差)，自己写一个简单的画图工具应该也不是很难}
 \end{itemize}
 
 
 
 \subsubsection{Result}
 
-\sectiontitle{Eff}
+\sectiontitle{Eff and Ghost rate}
 
-\sectiontitle{Ghost Rate}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.45\linewidth]{Tracking Performance/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_efficiency_P.pdf}
+    \includegraphics[width=0.45\linewidth]{Tracking Performance/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_ghost_P.pdf}    \caption{Eff and ghost rate}
+    \label{fig:placeholder}
+\end{figure}
+
 
 \sectiontitle{Momentum Resolution}
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Tracking Performance/long_tracking_default_Long_MT_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_res_dpoverp_vs_P.pdf}
+    \caption{Res\_p}
+    \label{fig:placeholder}
+\end{figure}
 
 
 
