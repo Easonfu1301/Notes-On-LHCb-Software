@@ -794,8 +794,9 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 
 编译完成后，如果你想使用vscode 对于c++code 的智能提示，可以在workspace下创建一个 \lstinline{.vscode} 文件夹，并在里面创建一个 \lstinline{c_cpp_properties.json} 文件，内容类似如下（将[StackPath] 替换为你的实际路径， build 后面的编译版本用\lstinline{utils/config.json}决定）：
 
-\begin{lstlisting}[language=json, label=lst:vscode-cpp-config, caption={VS Code C++ 配置（.vscode/c_cpp_properties.json）}]
-// .vscode/c_cpp_properties.json
+\begin{lstlisting}[label=lst:vscode-cpp-config, caption={VS Code C++ 配置（\url{.vscode/c\_cpp\_properties.json}）}]
+{
+    // .vscode/c_cpp_properties.json
     "configurations": [
         {
             "name": "Linux",
@@ -1212,7 +1213,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.45\linewidth]{Tracking Performance/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_efficiency_P.pdf}
-    \includegraphics[width=0.45\linewidth]{Tracking Performance/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_ghost_P.pdf}    \caption{Eff and ghost rate}
+    \includegraphics[width=0.45\linewidth]{Tracking Performance/long_tracking_default_Long_MT_pre_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_ghost_P.pdf}    \caption{Long track 重建效率（左）与 Ghost rate（右）随动量 $p$ 的变化。图中对比了 Forward、Backward、Match（不含 UP hits）三种策略及合并（Merged）后的结果，均为 Kalman Filter 拟合前的表现。}
     \label{fig:eff-ghost}
 \end{figure}
 
@@ -1222,7 +1223,7 @@ MC checking 的目标是利用 MC truth 信息对所有重建出的 track 进行
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.75\linewidth]{Tracking Performance/long_tracking_default_Long_MT_kf_02_long_Forward_vs_Backward_vs_Match_noUP_vs_Merged_res_dpoverp_vs_P.pdf}
-    \caption{Res\_p}
+    \caption{Long track 动量分辨率 $\delta p / p$ 随动量 $p$ 的变化。图中对比了 Forward、Backward、Match（不含 UP hits）三种策略及合并（Merged）后的结果，均为 Kalman Filter 拟合后的表现。}
     \label{fig:momentum-resolution}
 \end{figure}
 
