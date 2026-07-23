@@ -1239,20 +1239,20 @@ Long track 动量分辨率 $\delta p / p$ 随动量 $p$ 的变化如 Figure.~\re
 \subsection{初步对比FTDR 和 UP.T design 的 p resolution}
 \subsubsection{Plan}
 
-目前，产生了两种样本，
+目前，产生了两种样本：
 \begin{itemize}
-    \item \url{/publicfs/lhcb/user/fuyisheng/public/260704_newsamples/production/workdir_MPFT_revertall_baseline_250711_updated_with_5mm_cut_large_sample}
-    \item \url{/publicfs/lhcb/user/fuyisheng/public/260704_newsamples/production/workdir_UPMPFT_revertall_baseline_250711_updated_with_5mm_cut_large_sample}
+    \item \textbf{UP.T 设计}：\url{/publicfs/lhcb/user/fuyisheng/public/260704_newsamples/production/workdir_MPFT_revertall_baseline_250711_updated_with_5mm_cut_large_sample}
+    \item \textbf{FTDR 设计}：\url{/publicfs/lhcb/user/fuyisheng/public/260704_newsamples/production/workdir_UPMPFT_revertall_baseline_250711_updated_with_5mm_cut_large_sample}
 \end{itemize}
 
-前者为的UP为UP.T的设计，后者为UP的FTDR设计，同时，revert了最新的两个设置
+前者 UP 采用 UP.T 设计，后者 UP 采用 FTDR 设计。同时，为了让样本回到 January 版本以便比较，revert 了以下三处设置变更：
 \begin{eqnarray}
-    \text{Electron cut} &=& 0.025mm \Rightarrow \text{Electron cut} = 5mm\\
-    \text{Version FT} &=& \text{Version MP} =  \text{proto.v00.03} \\
-    \text{物理过程换从Std还为Opt2}
+    \text{Electron cut} &:&~ 0.025\,\mathrm{mm} \;\Rightarrow\; 5\,\mathrm{mm} \\
+    \text{Version FT(MP)} &:&~ \texttt{proto-run5-low-v00.00} \;\Rightarrow\; \texttt{proto-run5-v00.01} \\
+    \text{物理过程} &:&~ \text{Std} \;\Rightarrow\; \text{Opt2}
 \end{eqnarray}
 
-原因是发现July的样本和Jan的样本不一致，以上改变能回到Jan的样本，便于比较
+原因是发现 July 样本与 January 样本不一致，上述 revert 可使样本回到 January 的状态，便于对比。详细的比较可以见 MR \link{https://gitlab.cern.ch/lhcb/Moore/-/merge_requests/6314}{!6314}。
 
 
 
@@ -1270,7 +1270,7 @@ Long track 动量分辨率 $\delta p / p$ 随动量 $p$ 的变化如 Figure.~\re
 
 % \subsubsection{Result}
 
-\figplaceholder
+% \figplaceholder
 
 
 \clearpage
